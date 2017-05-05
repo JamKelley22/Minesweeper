@@ -30,6 +30,22 @@ public class Game {
 		//TODO
 	}
 	
+	public Cell[][] getCells() {
+		return this.cells;
+	}
+	
+	public int getSizeX() {
+		return sizeX;
+	}
+
+	public int getSizeY() {
+		return sizeY;
+	}
+
+	public boolean isWrap() {
+		return wrap;
+	}
+
 	private void fillCells() {
 		for(int i = 0; i < this.sizeX; i++) {
 			for(int j = 0; j < this.sizeY; j++) {
