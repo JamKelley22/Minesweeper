@@ -72,12 +72,10 @@ public class Game {
 	
 	public int getNeighborMineNum(int posX, int posY) {
 		int sumMines = 0;
-		
-		//top 3
-		//for(int i = 0;)
-		//side 2
-		
-		//bottom 3
+		boolean topWall = (posX == 0);
+		boolean bottomWall = (posX == cells.length - 1);
+		//TODO
+				
 		
 		return sumMines;
 	}
