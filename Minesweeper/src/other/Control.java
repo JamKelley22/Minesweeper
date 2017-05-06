@@ -1,8 +1,10 @@
 package other;
 
+import java.awt.MouseInfo;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import objects.Game;
@@ -10,9 +12,11 @@ import objects.Game;
 public class Control implements MouseListener{
 
 	private Game game;
+	private JFrame frame;
 	
-	public Control(Game game) {
+	public Control(Game game, JFrame frame) {
 		this.game = game;
+		this.frame = frame;
 	}
 
 	@Override
@@ -35,7 +39,15 @@ public class Control implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		boolean leftClick = SwingUtilities.isLeftMouseButton(arg0);
+		boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
+		
+		if(rightClick) {
+			System.out.println(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()));
+		}
+		if(leftClick) {
+			System.out.println(MouseInfo.getPointerInfo().getLocation());
+		}
 		
 	}
 
@@ -43,6 +55,7 @@ public class Control implements MouseListener{
 	public void mouseReleased(MouseEvent arg0) {
 		boolean leftClick = SwingUtilities.isLeftMouseButton(arg0);
 		boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
+		
 	}
 
 }

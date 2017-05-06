@@ -26,13 +26,15 @@ public class View extends JFrame implements Updatable{
 	private Game game;
 	
 	public View(int width, int height, Game game) {
+		this.setUndecorated(true);
 		this.game = game;
 		JPanel jp = new JPanel();
 		jp.setPreferredSize(new Dimension(width, height));
 		this.add(jp);
-		Control control = new Control(game);
+		Control control = new Control(game, this);
 		jp.addMouseListener(control);
-		this.addMouseListener(control);
+		
+		//this.addMouseListener(control);
 		this.pack();
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,6 +62,7 @@ public class View extends JFrame implements Updatable{
 //			}
 //		}
 		Cell[][] cells = game.getCells();
+		//TODO
 		graphics.drawImage(image, 0, 0, null);
 		
 	}
