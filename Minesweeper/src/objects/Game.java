@@ -60,8 +60,26 @@ public class Game {
 		}
 	}
 	
-	public Cell getClosestCell() {
-		return null;
+	/**
+	 * 
+	 * @param x X position of curser in pixels
+	 * @param y Y position of curser in pixels
+	 * @return the cell in Game that is closest to this x,y position
+	 */
+	public Cell getClosestCell(int x, int y) {
+		return cells[x / Config.CELL_DISTANCE][y / Config.CELL_DISTANCE];
+	}
+	
+	public int getNeighborMineNum(int posX, int posY) {
+		int sumMines = 0;
+		
+		//top 3
+		//for(int i = 0;)
+		//side 2
+		
+		//bottom 3
+		
+		return sumMines;
 	}
 	
 }

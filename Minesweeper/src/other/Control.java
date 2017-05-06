@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import objects.Cell;
 import objects.Game;
 
 public class Control implements MouseListener{
@@ -43,7 +44,7 @@ public class Control implements MouseListener{
 		boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
 		
 		if(rightClick) {
-			System.out.println(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()));
+			//System.out.println(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()));
 			if(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y < 0) { 
 				if(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x > 450) {
 					System.exit(0);
@@ -52,7 +53,7 @@ public class Control implements MouseListener{
 			}
 		}
 		if(leftClick) {
-			System.out.println(MouseInfo.getPointerInfo().getLocation());
+			//System.out.println(MouseInfo.getPointerInfo().getLocation());
 		}
 		
 	}
@@ -61,6 +62,22 @@ public class Control implements MouseListener{
 	public void mouseReleased(MouseEvent arg0) {
 		boolean leftClick = SwingUtilities.isLeftMouseButton(arg0);
 		boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
+		
+		Cell c = game.getClosestCell(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x, 
+				Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y);
+		
+		if(rightClick)
+			if(c.isFlag()) {
+				c.setFlag(false);
+			}
+			else {
+				c.setFlag(true);
+			}
+		else if(leftClick && c.isFlag() == false) {
+			c.setColor(Config.CELL_COLOR_OPENED);
+			c.setOpen(true);
+		}
+		
 		
 	}
 
