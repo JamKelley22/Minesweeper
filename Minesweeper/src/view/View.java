@@ -73,9 +73,15 @@ public class View extends JFrame implements Updatable{
 //				g2D.setColor(Color.BLACK);
 //			}
 //		}
+		//graphics.drawImage(image, 0, 0, null);
 		Cell[][] cells = game.getCells();
-		//TODO
-		graphics.drawImage(image, 0, 0, null);
+		for(int i = 0; i < cells.length; i++) {
+			for(int j = 0; j < cells[i].length; j++) {
+				cells[i][j].fillCell(graphics);
+			}
+ 		}
+ 		//TODO
+		
 		
 	}
 	

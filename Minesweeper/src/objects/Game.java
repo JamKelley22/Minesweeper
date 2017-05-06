@@ -19,6 +19,7 @@ public class Game {
 		this.sizeY = sizeY;
 		this.wrap = wrap;
 		this.dificulity = difficulty;//0-99 99 being full mines
+		cells = new Cell[sizeX][sizeY];
 		fillCells();
 	}
 	

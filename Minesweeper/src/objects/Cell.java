@@ -1,6 +1,9 @@
 package objects;
 
 import java.awt.Color;
+import java.awt.Graphics;
+
+import other.Config;
 
 public class Cell {
 	
@@ -22,8 +25,6 @@ public class Cell {
 		this.posX = posX;
 		this.posY = posY;
 	}
-	
-	
 	
 	//Position Getters
 	public int getPosX() {
@@ -50,5 +51,13 @@ public class Cell {
 	
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public void fillCell(Graphics graphics) {
+		graphics.setColor(Color.BLUE);
+		graphics.fill3DRect(this.posX * Config.CELL_DISTANCE, 
+				this.posY * Config.CELL_DISTANCE, Config.CELL_DISTANCE, 
+				Config.CELL_DISTANCE, true);
+		
 	}
 }
