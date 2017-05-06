@@ -20,7 +20,7 @@ public class Main {
 				    } catch (InterruptedException e) {
 				      e.printStackTrace();
 				    }
-				    Clock clock = new Clock(20.0f, gui);
+				    Clock clock = new Clock(10.0f, gui);
 				    clock.init();
 			  }
 			};

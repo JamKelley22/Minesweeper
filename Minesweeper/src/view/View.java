@@ -34,8 +34,6 @@ public class View extends JFrame implements Updatable{
 		this.add(jp);
 		Control control = new Control(game, this);
 		jp.addMouseListener(control);
-		
-		//this.addMouseListener(control);
 		this.pack();
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,19 +45,19 @@ public class View extends JFrame implements Updatable{
 	@Override
 	public void update() {
 		Graphics2D g2D = image.createGraphics();
-		g2D.setColor(Color.WHITE);
-		g2D.drawRect(0, 0, image.getWidth(), image.getHeight());
-		
-		
-		g2D.setColor(Color.RED);
-		g2D.fillRect(450, 0, 500, 25);
-		
-		
-		g2D.setColor(Color.BLACK);
-		for(int i = 1; i < 30; i++) {
-			g2D.drawLine(i * Config.CELL_DISTANCE, 0, i * Config.CELL_DISTANCE, 525);
-		}
-		
+//		g2D.setColor(Color.WHITE);
+//		g2D.drawRect(0, 0, image.getWidth(), image.getHeight());
+//		
+//		
+//		g2D.setColor(Color.RED);
+//		g2D.fillRect(450, 0, 500, 25);
+//		
+//		
+//		g2D.setColor(Color.BLACK);
+//		for(int i = 1; i < 30; i++) {
+//			g2D.drawLine(i * Config.CELL_DISTANCE, 0, i * Config.CELL_DISTANCE, 525);
+//		}
+		//------------------------------------------------------
 		//game.getCurrLvl().update();
 		//Room[][] rooms = game.getCurrLvl().getRooms();
 //		for (int i = 0; i < rooms.length; i++) {
@@ -73,14 +71,14 @@ public class View extends JFrame implements Updatable{
 //				g2D.setColor(Color.BLACK);
 //			}
 //		}
-		//graphics.drawImage(image, 0, 0, null);
+		//-----------------------------------------------------
 		Cell[][] cells = game.getCells();
 		for(int i = 0; i < cells.length; i++) {
 			for(int j = 0; j < cells[i].length; j++) {
-				cells[i][j].fillCell(graphics);
+				cells[i][j].fillCell(g2D, game);
 			}
  		}
- 		//TODO
+		graphics.drawImage(image, 0, 0, null);
 		
 		
 	}

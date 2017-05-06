@@ -78,6 +78,10 @@ public class Control implements MouseListener{
 			c.setOpen(true);
 		}
 		
+		System.out.println(c);
+		
+		System.out.println(game.getNeighborMineNum(c.getPosX(), c.getPosY()));
+		
 		
 	}
 

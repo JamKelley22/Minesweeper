@@ -1,6 +1,7 @@
 package objects;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import other.Config;
@@ -71,7 +72,7 @@ public class Cell {
 		this.color = color;
 	}
 
-	public void fillCell(Graphics graphics) {
+	public void fillCell(Graphics graphics, Game game) {
 		graphics.setColor(this.color);
 		int newX = this.posX * Config.CELL_DISTANCE;
 		int newY = this.posY * Config.CELL_DISTANCE;
@@ -83,11 +84,16 @@ public class Cell {
 			graphics.fillRect(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF,
 					Config.FLAG_SIZE, Config.FLAG_SIZE);
 		}
-		
+		if(open) {
+			graphics.setColor(Config.MINE_NUM_COLOR);
+			graphics.setFont(new Font("TimesRoman", Font.PLAIN, Config.FONT_SIZE)); 
+			graphics.drawString(Integer.toString(game.getNeighborMineNum(this.posX, this.posY)), 
+					newX + Config.FLAG_DIFF, newY + Config.CELL_DISTANCE - (Config.FLAG_DIFF / 2) - 1);//-1 to center
+		}
 	}
 	
 	public String toString() {
-		return "Cell[ " + this.posX + "," + this.posY + "]\n" 
+		return "Cell[" + this.posX + "," + this.posY + "]\n" 
 	+ "Flag: " + this.flag + " | Mine: " + this.mine;
 	}
 

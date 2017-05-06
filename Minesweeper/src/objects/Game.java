@@ -72,8 +72,53 @@ public class Game {
 	
 	public int getNeighborMineNum(int posX, int posY) {
 		int sumMines = 0;
-		boolean topWall = (posX == 0);
-		boolean bottomWall = (posX == cells.length - 1);
+		boolean topWall = (posY == 0);
+		boolean bottomWall = (posY == cells.length - 1);
+		boolean leftWall = (posX == 0);
+		boolean rightWall = (posX == cells[0].length - 1);
+		
+		if(!topWall) {
+			if(cells[posX][posY-1].isMine()) {//North
+				sumMines++;
+			}
+		}
+		if(!bottomWall) {
+			if(cells[posX][posY+1].isMine()) {//South
+				sumMines++;
+			} 
+		}
+		if(!leftWall) {
+			if(cells[posX-1][posY].isMine()) {//West
+				sumMines++;
+			}
+		}
+		if(!rightWall) {
+			if(cells[posX+1][posY].isMine()) {//East
+				sumMines++;
+			} 
+		}
+		
+		if(!rightWall && !topWall) {//NE
+			if(cells[posX+1][posY-1].isMine()) {
+				sumMines++;
+			} 
+		}
+		if(!leftWall && !topWall) {//NW
+			if(cells[posX-1][posY-1].isMine()) {
+				sumMines++;
+			} 
+		}
+		if(!rightWall && !bottomWall) {//SE
+			if(cells[posX+1][posY+1].isMine()) {
+				sumMines++;
+			} 
+		}
+		if(!leftWall && !bottomWall) {//SW
+			if(cells[posX-1][posY+1].isMine()) {
+				sumMines++;
+			} 
+		}
+		
 		//TODO
 				
 		
