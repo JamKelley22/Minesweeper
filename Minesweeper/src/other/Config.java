@@ -16,7 +16,7 @@ public class Config {
 	
 	public static final Color CELL_COLOR_CLOSED = Color.GRAY.brighter();
 
-	public static final Color CELL_COLOR_OPENED = Color.GRAY.darker();
+	public static final Color CELL_COLOR_OPENED = Color.GRAY;
 
 	public static final Color FLAG_COLOR = Color.RED;
 
