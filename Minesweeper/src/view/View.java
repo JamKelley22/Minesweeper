@@ -1,11 +1,10 @@
 package view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.image.VolatileImage;
 
 import javax.swing.JFrame;
@@ -52,22 +51,15 @@ public class View extends JFrame implements Updatable{
 				cells[i][j].fillCell(g2D, game);
 			}
  		}
+		
+		if(Config.GAME_END) {
+			g2D.setColor(Color.BLACK);
+			
+			g2D.setFont(Config.GAME_OVER_FONT);
+			g2D.drawString("Game Over",75, 200);//Change numbers
+		}
 		graphics.drawImage(image, 0, 0, null);
 		
 		
-	}
-	
-	private Point getCenter(Polygon p) {
-		int x = 0;
-		for (int i : p.xpoints) {
-			x += i;
-		}
-		x /= p.xpoints.length;
-		int y = 0;
-		for (int i : p.ypoints) {
-			y += i;
-		}
-		y /= p.ypoints.length;
-		return new Point(x, y);
 	}
 }

@@ -1,6 +1,7 @@
 package other;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 import java.util.Random;
 
@@ -23,14 +24,16 @@ public class Config {
 	public static final Color MINE_NUM_COLOR = Color.BLACK;
 
 	public static final int FONT_SIZE = 20;
+	
+	public static final Font GAME_OVER_FONT = new Font("TimesRoman", Font.BOLD, 50); 
 
 	public static final Color CELL_COLOR_MINE = Color.RED.brighter();
 
-	public static final int DIFFICULITY = 20;
+	public static final int DIFFICULITY = 40;
 	
-	public static final int FIRST_OPEN_NEIGHBORS_PROB = 50;
+	public static final int FIRST_OPEN_NEIGHBORS_PROB = 25;
 	
-	public static final int OPEN_NEIGHBORS_PROB = 10;
+	public static final int OPEN_NEIGHBORS_PROB = 15;
 
 	public static final int RECURSIVE_PROB_DIFF = 2;//Ammount the pobibility of opening more spaces goes down each cell opened
 	

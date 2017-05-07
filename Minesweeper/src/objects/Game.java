@@ -31,6 +31,7 @@ public class Game {
 	
 	public void reset() {
 		//TODO
+		closeAllCells();
 	}
 	
 	public void newGame() {
@@ -161,8 +162,12 @@ public class Game {
 		
 	}
 	
-	public void closeAllCells() {//For Reset()
-		
+	private void closeAllCells() {//For Reset()
+		for(int i = 0; i < cells.length; i++) {
+			for(int j = 0; j < cells[i].length; j++) {
+				cells[i][j].setOpen(false);
+			}
+		}
 	}
 
 	public void lose() {
