@@ -23,6 +23,10 @@ public class Config {
 	public static final Color MINE_NUM_COLOR = Color.BLACK;
 
 	public static final int FONT_SIZE = 20;
+
+	public static final Color CELL_COLOR_MINE = Color.RED.brighter();
+
+	public static final int DIFFICULITY = 20;
 	
 	public static Point subtract(Point p1, Point p2) {
 	    return new Point(p1.x - p2.x, p1.y - p2.y);//-25 to adjust for close screen offset

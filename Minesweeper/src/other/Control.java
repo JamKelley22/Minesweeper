@@ -74,7 +74,12 @@ public class Control implements MouseListener{
 				c.setFlag(true);
 			}
 		else if(leftClick && c.isFlag() == false) {
-			c.setColor(Config.CELL_COLOR_OPENED);
+			if(c.isMine()) {
+				c.setColor(Config.CELL_COLOR_MINE);
+			}
+			else {
+				c.setColor(Config.CELL_COLOR_OPENED);
+			}
 			c.setOpen(true);
 		}
 		

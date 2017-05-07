@@ -84,7 +84,7 @@ public class Cell {
 			graphics.fillRect(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF,
 					Config.FLAG_SIZE, Config.FLAG_SIZE);
 		}
-		if(open) {
+		if(this.open && !this.mine) {
 			graphics.setColor(Config.MINE_NUM_COLOR);
 			graphics.setFont(new Font("TimesRoman", Font.PLAIN, Config.FONT_SIZE)); 
 			graphics.drawString(Integer.toString(game.getNeighborMineNum(this.posX, this.posY)), 

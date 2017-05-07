@@ -1,5 +1,6 @@
 package objects;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import other.Config;
@@ -68,6 +69,42 @@ public class Game {
 	 */
 	public Cell getClosestCell(int x, int y) {
 		return cells[x / Config.CELL_DISTANCE][y / Config.CELL_DISTANCE];
+	}
+	
+	public Cell[] getNeighbors(int posX, int posY) {
+		ArrayList<Cell> cellList = new ArrayList<Cell>();
+		
+		boolean topWall = (posY == 0);
+		boolean bottomWall = (posY == cells.length - 1);
+		boolean leftWall = (posX == 0);
+		boolean rightWall = (posX == cells[0].length - 1);
+		
+		if(!topWall) {
+			cellList.add(cells[posX][posY-1]);
+		}
+		if(!bottomWall) {
+			cellList.add(cells[posX][posY+1]); 
+		}
+		if(!leftWall) {
+			cellList.add(cells[posX-1][posY]);
+		}
+		if(!rightWall) {
+			cellList.add(cells[posX+1][posY]);
+		}
+		
+		if(!rightWall && !topWall) {//NE
+			cellList.add(cells[posX+1][posY-1]); 
+		}
+		if(!leftWall && !topWall) {//NW
+			cellList.add(cells[posX-1][posY-1]); 
+		}
+		if(!rightWall && !bottomWall) {//SE
+			cellList.add(cells[posX+1][posY+1]);
+		}
+		if(!leftWall && !bottomWall) {//SW
+			cellList.add(cells[posX-1][posY+1]);
+		}
+		return cellList.toArray(new Cell[cellList.size()]);
 	}
 	
 	public int getNeighborMineNum(int posX, int posY) {
