@@ -2,8 +2,6 @@ package objects;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import clock.Clock;
 import other.Config;
 
 public class Game {

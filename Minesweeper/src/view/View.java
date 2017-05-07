@@ -35,6 +35,7 @@ public class View extends JFrame implements Updatable{
 		jp.addMouseListener(control);
 		this.pack();
 		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		image = this.createVolatileImage(width, height);
