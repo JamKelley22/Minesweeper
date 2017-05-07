@@ -60,33 +60,36 @@ public class Control implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		boolean leftClick = SwingUtilities.isLeftMouseButton(arg0);
-		boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
-		
-		Cell c = game.getClosestCell(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x, 
-				Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y);
-		
-		if(rightClick)
-			if(c.isFlag()) {
-				c.setFlag(false);
+		if(!Config.GAME_END) {
+			boolean leftClick = SwingUtilities.isLeftMouseButton(arg0);
+			boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
+			boolean cellIsMine = false;
+			
+			
+			Cell c = game.getClosestCell(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x, 
+					Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y);
+			cellIsMine = c.isMine();
+			if(rightClick)
+				c.swapFlagState();
+			else if(leftClick && c.isFlag() == false) {//Open Cell
+				if(c.openCell() && !c.isMine()) {
+					if(Config.FIRST_RECURSIVE) {
+						game.recursiveOpen(c, Config.FIRST_OPEN_NEIGHBORS_PROB);
+						Config.FIRST_RECURSIVE = false;
+					}
+					else {
+						game.recursiveOpen(c, Config.OPEN_NEIGHBORS_PROB);
+					}
+				}
+				else if(c.isMine()) {
+					game.lose();
+				}
 			}
-			else {
-				c.setFlag(true);
-			}
-		else if(leftClick && c.isFlag() == false) {
-			if(c.isMine()) {
-				c.setColor(Config.CELL_COLOR_MINE);
-			}
-			else {
-				c.setColor(Config.CELL_COLOR_OPENED);
-			}
-			c.setOpen(true);
+			
+			System.out.println(c);
+			
+			System.out.println(game.getNeighborMineNum(c.getPosX(), c.getPosY()));
 		}
-		
-		System.out.println(c);
-		
-		System.out.println(game.getNeighborMineNum(c.getPosX(), c.getPosY()));
-		
 		
 	}
 

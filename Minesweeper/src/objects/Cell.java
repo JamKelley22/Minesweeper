@@ -92,9 +92,34 @@ public class Cell {
 		}
 	}
 	
+	/**
+	 * Opens this Cell object
+	 * @return if the Cell is already open returns false, else true
+	 */
+	public boolean openCell() {
+		if(!this.open) {
+			if(this.mine) {
+				this.setColor(Config.CELL_COLOR_MINE);
+			}
+			else {
+				this.setColor(Config.CELL_COLOR_OPENED);
+			}
+			this.open = true;
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
 	public String toString() {
 		return "Cell[" + this.posX + "," + this.posY + "]\n" 
 	+ "Flag: " + this.flag + " | Mine: " + this.mine;
+	}
+
+	public void swapFlagState() {
+		this.flag = !this.flag;
 	}
 
 }

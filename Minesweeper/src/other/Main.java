@@ -21,6 +21,7 @@ public class Main {
 				      e.printStackTrace();
 				    }
 				    Clock clock = new Clock(10.0f, gui);
+				    //game.setClock(clock);
 				    clock.init();
 			  }
 			};

@@ -3,6 +3,7 @@ package objects;
 import java.util.ArrayList;
 import java.util.Random;
 
+import clock.Clock;
 import other.Config;
 
 public class Game {
@@ -29,6 +30,10 @@ public class Game {
 	}
 	
 	public void reset() {
+		//TODO
+	}
+	
+	public void newGame() {
 		//TODO
 	}
 	
@@ -107,59 +112,69 @@ public class Game {
 		return cellList.toArray(new Cell[cellList.size()]);
 	}
 	
-	public int getNeighborMineNum(int posX, int posY) {
-		int sumMines = 0;
+	public Cell[] getCardnalNeighbors(int posX, int posY) {
+		ArrayList<Cell> cellList = new ArrayList<Cell>();
+		
 		boolean topWall = (posY == 0);
 		boolean bottomWall = (posY == cells.length - 1);
 		boolean leftWall = (posX == 0);
 		boolean rightWall = (posX == cells[0].length - 1);
 		
 		if(!topWall) {
-			if(cells[posX][posY-1].isMine()) {//North
-				sumMines++;
-			}
+			cellList.add(cells[posX][posY-1]);
 		}
 		if(!bottomWall) {
-			if(cells[posX][posY+1].isMine()) {//South
-				sumMines++;
-			} 
+			cellList.add(cells[posX][posY+1]); 
 		}
 		if(!leftWall) {
-			if(cells[posX-1][posY].isMine()) {//West
+			cellList.add(cells[posX-1][posY]);
+		}
+		if(!rightWall) {
+			cellList.add(cells[posX+1][posY]);
+		}
+		return cellList.toArray(new Cell[cellList.size()]);
+	}
+	
+	public int getNeighborMineNum(int posX, int posY) {
+		int sumMines = 0;
+		
+		Cell[] cellNeighbors = this.getNeighbors(posX, posY);
+		for(Cell c : cellNeighbors) {
+			if(c.isMine()) {
 				sumMines++;
 			}
 		}
-		if(!rightWall) {
-			if(cells[posX+1][posY].isMine()) {//East
-				sumMines++;
-			} 
-		}
-		
-		if(!rightWall && !topWall) {//NE
-			if(cells[posX+1][posY-1].isMine()) {
-				sumMines++;
-			} 
-		}
-		if(!leftWall && !topWall) {//NW
-			if(cells[posX-1][posY-1].isMine()) {
-				sumMines++;
-			} 
-		}
-		if(!rightWall && !bottomWall) {//SE
-			if(cells[posX+1][posY+1].isMine()) {
-				sumMines++;
-			} 
-		}
-		if(!leftWall && !bottomWall) {//SW
-			if(cells[posX-1][posY+1].isMine()) {
-				sumMines++;
-			} 
-		}
-		
-		//TODO
-				
-		
 		return sumMines;
+	}
+
+	public void recursiveOpen(Cell c, int prob) {
+		if(!c.isMine()) {
+			Cell[] cellNeighbors = this.getCardnalNeighbors(c.getPosX(), c.getPosY());
+			
+			for(int i = 0; i < cellNeighbors.length; i++) {
+				if(r.nextInt(100) < prob) {
+					c.openCell();
+					this.recursiveOpen(cellNeighbors[i], prob - Config.RECURSIVE_PROB_DIFF);
+				}
+			}
+		}
+		
+	}
+	
+	public void closeAllCells() {//For Reset()
+		
+	}
+
+	public void lose() {
+		for(int i = 0; i < cells.length; i++) {
+			for(int j = 0; j < cells[i].length; j++) {
+				if(cells[i][j].isMine()) {
+					cells[i][j].openCell();
+					//this.clock.stop();
+					Config.GAME_END = true;
+				}
+			}
+		}
 	}
 	
 }

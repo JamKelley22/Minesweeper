@@ -28,6 +28,16 @@ public class Config {
 
 	public static final int DIFFICULITY = 20;
 	
+	public static final int FIRST_OPEN_NEIGHBORS_PROB = 50;
+	
+	public static final int OPEN_NEIGHBORS_PROB = 10;
+
+	public static final int RECURSIVE_PROB_DIFF = 2;//Ammount the pobibility of opening more spaces goes down each cell opened
+	
+	public static boolean FIRST_RECURSIVE = true;
+	
+	public static boolean GAME_END = false;
+	
 	public static Point subtract(Point p1, Point p2) {
 	    return new Point(p1.x - p2.x, p1.y - p2.y);//-25 to adjust for close screen offset
 	}
