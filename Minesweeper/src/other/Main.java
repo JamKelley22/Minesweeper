@@ -14,7 +14,7 @@ public class Main {
 		Game game = new Game();
 		Runnable r = new Runnable() {
 			  public void run() {
-			    View gui = new View(500, 500, game);
+			    View gui = new View(500, 525, game);
 			    try {
 				      Thread.sleep(50);
 				    } catch (InterruptedException e) {

@@ -59,4 +59,8 @@ public class Game {
 		}
 	}
 	
+	public Cell getClosestCell() {
+		return null;
+	}
+	
 }

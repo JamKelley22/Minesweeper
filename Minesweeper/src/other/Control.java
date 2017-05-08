@@ -44,6 +44,12 @@ public class Control implements MouseListener{
 		
 		if(rightClick) {
 			System.out.println(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()));
+			if(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y < 0) { 
+				if(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x > 450) {
+					System.exit(0);
+				}
+				
+			}
 		}
 		if(leftClick) {
 			System.out.println(MouseInfo.getPointerInfo().getLocation());

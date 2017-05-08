@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import clock.Updatable;
 import objects.Cell;
 import objects.Game;
+import other.Config;
 import other.Control;
 
 public class View extends JFrame implements Updatable{
@@ -48,6 +49,17 @@ public class View extends JFrame implements Updatable{
 		Graphics2D g2D = image.createGraphics();
 		g2D.setColor(Color.WHITE);
 		g2D.drawRect(0, 0, image.getWidth(), image.getHeight());
+		
+		
+		g2D.setColor(Color.RED);
+		g2D.fillRect(450, 0, 500, 25);
+		
+		
+		g2D.setColor(Color.BLACK);
+		for(int i = 1; i < 30; i++) {
+			g2D.drawLine(i * Config.CELL_DISTANCE, 0, i * Config.CELL_DISTANCE, 525);
+		}
+		
 		//game.getCurrLvl().update();
 		//Room[][] rooms = game.getCurrLvl().getRooms();
 //		for (int i = 0; i < rooms.length; i++) {
