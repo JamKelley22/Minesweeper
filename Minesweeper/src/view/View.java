@@ -1,10 +1,10 @@
 package view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
 import java.awt.image.VolatileImage;
 
 import javax.swing.JFrame;
@@ -25,6 +25,9 @@ public class View extends JFrame implements Updatable{
 	
 	private Game game;
 	
+	private int lastXPos;
+	private int lastYPos;
+	
 	public View(int width, int height, Game game) {
 		this.setUndecorated(true);
 		this.game = game;
@@ -38,6 +41,8 @@ public class View extends JFrame implements Updatable{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+		lastXPos = MouseInfo.getPointerInfo().getLocation().x;
+		lastYPos = MouseInfo.getPointerInfo().getLocation().y;
 		image = this.createVolatileImage(width, height);
 		graphics = jp.getGraphics();
 	}
@@ -46,6 +51,21 @@ public class View extends JFrame implements Updatable{
 	public void update() {
 		Graphics2D g2D = image.createGraphics();
 		
+		if(Config.ISMOVING) {//Moving the window
+			int holdXPos = MouseInfo.getPointerInfo().getLocation().x;
+			int holdYPos = MouseInfo.getPointerInfo().getLocation().y;
+			
+			System.out.println("(" + holdXPos + "," + holdYPos + ")");
+			
+			int xDiff = holdXPos - this.lastXPos;
+			int yDiff = holdYPos - this.lastYPos;
+			
+			this.setLocation(this.getX() - xDiff, this.getY() - yDiff);
+			
+			this.lastXPos = holdXPos;
+			this.lastYPos = holdYPos;
+		}
+			
 		Cell[][] cells = game.getCells();
 		for(int i = 0; i < cells.length; i++) {
 			for(int j = 0; j < cells[i].length; j++) {
@@ -53,9 +73,32 @@ public class View extends JFrame implements Updatable{
 			}
  		}
 		
+		//ToolBar
 		int gamePixels = Config.CELL_DISTANCE * Config.GAME_SIZE;
+		int xSizeOffset = 8;
+		//Exit Button
 		g2D.setColor(Color.RED);
 		g2D.fill3DRect(gamePixels - Config.BUTTON_WIDTH, 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		g2D.setColor(Color.GRAY.darker().darker());
+		g2D.setFont(Config.TOOLBAR_FONT);
+		g2D.drawString("x", gamePixels - (Config.BUTTON_WIDTH / 2) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
+		
+		//Minimize Button
+		//frame.setState(Frame.ICONIFIED);
+		g2D.setColor(Color.YELLOW);
+		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * 2), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		g2D.setColor(Color.GRAY.darker().darker());
+		g2D.setFont(Config.TOOLBAR_FONT);
+		g2D.drawString("-", gamePixels - (Config.BUTTON_WIDTH / 2) - (Config.BUTTON_WIDTH) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
+		
+		//Maximize Button
+		g2D.setColor(Color.GREEN);
+		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * 3), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		g2D.setColor(Color.GRAY.darker().darker());
+		g2D.setFont(Config.TOOLBAR_FONT);
+		g2D.drawString("+", gamePixels - (Config.BUTTON_WIDTH / 2) - (Config.BUTTON_WIDTH * 2) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
+		
+		
 		
 		if(Config.GAME_END) {//End of game
 			g2D.setColor(Color.BLACK);

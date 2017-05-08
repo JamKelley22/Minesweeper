@@ -12,7 +12,7 @@ public class Config {
 	
 	public static final int CELL_DISTANCE = 20;//In pixels
 	
-	public static final int DIFFICULITY = 35;
+	public static final int DIFFICULITY = 45;
 	
 	public static final int GAME_SIZE = 30;
 	
@@ -41,6 +41,8 @@ public class Config {
 	
 	public static final Font GAME_OVER_FONT = new Font("TimesRoman", Font.BOLD, (int)(Config.GAME_SIZE * 3)); 
 
+	public static final Font TOOLBAR_FONT = new Font("Dialog", Font.PLAIN, 30);
+	
 	
 	public static final int FIRST_OPEN_NEIGHBORS_PROB = 100;
 	
@@ -55,7 +57,11 @@ public class Config {
 	
 	public static boolean FIRST_RECURSIVE = true;
 	
+	public static boolean IS_MAX_FRAME = false;
+	
 	public static boolean GAME_END = false;
+
+	public static boolean ISMOVING;
 	
 	
 	public static Point subtract(Point p1, Point p2) {

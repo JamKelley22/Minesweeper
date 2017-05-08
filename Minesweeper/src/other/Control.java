@@ -1,5 +1,6 @@
 package other;
 
+import java.awt.Frame;
 import java.awt.MouseInfo;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -43,37 +44,41 @@ public class Control implements MouseListener{
 		boolean leftClick = SwingUtilities.isLeftMouseButton(arg0);
 		boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
 		
-		if(rightClick) {
-			//System.out.println(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()));
-			if(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y < 0) { 
-				if(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x > 450) {
-					System.exit(0);
-				}
-				
-			}
-		}
-		if(leftClick) {
-			//System.out.println(MouseInfo.getPointerInfo().getLocation());
+		int clickXPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x;
+		int clickYPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET;
+		
+		if(leftClick && clickYPos < 0 && clickXPos <= (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 3) ) {
+			Config.ISMOVING = true;
+			System.out.println("MOVE");
 		}
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		if(!Config.GAME_END) {
-			boolean leftClick = SwingUtilities.isLeftMouseButton(arg0);
-			boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
+		boolean leftClick = SwingUtilities.isLeftMouseButton(arg0);
+		boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
+		
+		int clickXPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x;
+		int clickYPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET;
+		
+		
+		
+		if(leftClick && clickYPos < 0 && !Config.ISMOVING) {
+			this.checkToolBar(clickXPos);
+		}
+		
+		
+		if(!Config.GAME_END && !Config.ISMOVING) {
+			
 			boolean cellIsMine = false;
 			
-			int clickXPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x;
-			int clickYPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET;
+			
 			
 			Cell c = game.getClosestCell(clickXPos, clickYPos);
 			//cellIsMine = c.isMine();
 			
-			if(leftClick && clickYPos < 0) {
-				this.checkToolBar(clickXPos);
-			}
+			
 			
 			if(rightClick && c != null)
 				c.swapFlagState();
@@ -100,12 +105,26 @@ public class Control implements MouseListener{
 				System.out.println(game.getNeighborMineNum(c.getPosX(), c.getPosY()));
 			}
 		}
-		
+		Config.ISMOVING = false;
 	}
 
 	private void checkToolBar(int clickXPos) {
 		if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - Config.BUTTON_WIDTH) {//Exit button
 			System.exit(0);
+		}
+		else if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 2)) {//Minimize
+			frame.setState(Frame.ICONIFIED);
+		}
+		else if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 3)) {//Maximize
+			if(Config.IS_MAX_FRAME) {
+				frame.setExtendedState(JFrame.NORMAL);
+				Config.IS_MAX_FRAME = false;
+			}
+			else {
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				Config.IS_MAX_FRAME = true;
+			}
+			//System.out.println("MAX");
 		}
 	}
 
