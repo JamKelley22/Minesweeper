@@ -60,6 +60,10 @@ public class Cell {
 		return mine;
 	}
 	
+	public void setMine(boolean mine) {
+		this.mine = mine;
+	}
+
 	public void setOpen(boolean open) {
 		this.open = open;
 	}

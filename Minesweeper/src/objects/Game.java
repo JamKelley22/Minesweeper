@@ -20,7 +20,7 @@ public class Game {
 		this.wrap = wrap;
 		this.dificulity = difficulty;//0-99 99 being full mines
 		cells = new Cell[sizeX][sizeY];
-		fillCells();
+		createEmptyCells();
 	}
 	
 	public Game() {//for a preset Game from a file (eg load game)
@@ -52,15 +52,16 @@ public class Game {
 		return wrap;
 	}
 
-	private void fillCells() {
+	private void createEmptyCells() {
 		for(int i = 0; i < this.sizeX; i++) {
 			for(int j = 0; j < this.sizeY; j++) {
-				if(r.nextInt(100) < this.dificulity) {//Construct Cell with mine in it
-					this.cells[i][j] = new Cell(i,j,true);
-				}
-				else {
-					this.cells[i][j] = new Cell(i,j,false);//Construct Cell with no mine
-				}
+				this.cells[i][j] = new Cell(i,j,false);
+//				if(r.nextInt(100) < this.dificulity) {//Construct Cell with mine in it
+//					this.cells[i][j] = new Cell(i,j,true);
+//				}
+//				else {
+//					this.cells[i][j] = new Cell(i,j,false);//Construct Cell with no mine
+//				}
 			}
 		}
 	}
@@ -153,10 +154,18 @@ public class Game {
 			for(int i = 0; i < cellNeighbors.length; i++) {
 				if(r.nextInt(100) < prob) {
 					c.openCell();
-					this.recursiveOpen(cellNeighbors[i], prob - Config.RECURSIVE_PROB_DIFF);
+					if(!Config.FIRST_CLICK_RECURSIVE) {
+						this.recursiveOpen(cellNeighbors[i], prob - Config.RECURSIVE_PROB_DIFF);
+					}
+					else {
+						this.recursiveOpen(cellNeighbors[i], prob - Config.FIRST_RECURSIVE_PROB_DIFF);
+					}
+					
 				}
 			}
+			
 		}
+		
 		
 	}
 	
@@ -175,6 +184,21 @@ public class Game {
 					cells[i][j].openCell();
 					//this.clock.stop();
 					Config.GAME_END = true;
+				}
+			}
+		}
+	}
+
+	public void fillClosedCells() {
+		for(int i = 0; i < this.sizeX; i++) {
+			for(int j = 0; j < this.sizeY; j++) {
+				if(!cells[i][j].isOpen()) {
+					if(r.nextInt(100) < this.dificulity) {//Construct Cell with mine in it
+						this.cells[i][j].setMine(true);
+					}
+					else {
+						//this.cells[i][j].setMine(false);//Construct Cell with no mine
+					}
 				}
 			}
 		}

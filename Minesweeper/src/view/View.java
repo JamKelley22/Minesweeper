@@ -57,7 +57,8 @@ public class View extends JFrame implements Updatable{
 			g2D.setColor(Color.BLACK);
 			
 			g2D.setFont(Config.GAME_OVER_FONT);
-			g2D.drawString("Game Over",75, 200);//Change numbers
+			int gameCenter = (int)((Config.GAME_SIZE * Config.CELL_DISTANCE) / 2.0);
+			g2D.drawString("Game Over",gameCenter - (int)(Config.GAME_OVER_FONT.getSize() * 2.5), gameCenter + Config.Y_OFFSET);//Change numbers
 		}
 		graphics.drawImage(image, 0, 0, null);
 		

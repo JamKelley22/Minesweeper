@@ -76,6 +76,8 @@ public class Control implements MouseListener{
 					if(Config.FIRST_RECURSIVE) {
 						game.recursiveOpen(c, Config.FIRST_OPEN_NEIGHBORS_PROB);
 						Config.FIRST_RECURSIVE = false;
+						Config.FIRST_CLICK_RECURSIVE = false;
+						game.fillClosedCells();
 					}
 					else {
 						game.recursiveOpen(c, Config.OPEN_NEIGHBORS_PROB);
