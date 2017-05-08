@@ -77,18 +77,18 @@ public class Cell {
 		int newX = this.posX * Config.CELL_DISTANCE;
 		int newY = this.posY * Config.CELL_DISTANCE;
 		graphics.fill3DRect(newX, 
-				newY, Config.CELL_DISTANCE, 
+				newY + Config.Y_OFFSET, Config.CELL_DISTANCE, 
 				Config.CELL_DISTANCE, true);
 		if(this.isFlag()) {
 			graphics.setColor(Config.FLAG_COLOR);
-			graphics.fillRect(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF,
+			graphics.fillRect(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF + Config.Y_OFFSET,
 					Config.FLAG_SIZE, Config.FLAG_SIZE);
 		}
 		if(this.open && !this.mine) {
 			graphics.setColor(Config.MINE_NUM_COLOR);
 			graphics.setFont(new Font("TimesRoman", Font.PLAIN, Config.FONT_SIZE)); 
 			graphics.drawString(Integer.toString(game.getNeighborMineNum(this.posX, this.posY)), 
-					newX + Config.FLAG_DIFF, newY + Config.CELL_DISTANCE - (Config.FLAG_DIFF / 2) - 1);//-1 to center
+					newX + Config.FLAG_DIFF, newY + Config.CELL_DISTANCE - (Config.FLAG_DIFF / 2) - 1 + Config.Y_OFFSET);//-1 to center
 		}
 	}
 	

@@ -67,7 +67,7 @@ public class Control implements MouseListener{
 			
 			
 			Cell c = game.getClosestCell(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x, 
-					Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y);
+					Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET);
 			cellIsMine = c.isMine();
 			if(rightClick)
 				c.swapFlagState();

@@ -29,13 +29,15 @@ public class Config {
 
 	public static final Color CELL_COLOR_MINE = Color.RED.brighter();
 
-	public static final int DIFFICULITY = 40;
+	public static final int DIFFICULITY = 20;
 	
-	public static final int FIRST_OPEN_NEIGHBORS_PROB = 25;
+	public static final int FIRST_OPEN_NEIGHBORS_PROB = 45;
 	
 	public static final int OPEN_NEIGHBORS_PROB = 15;
 
-	public static final int RECURSIVE_PROB_DIFF = 2;//Ammount the pobibility of opening more spaces goes down each cell opened
+	public static final int RECURSIVE_PROB_DIFF = 5;//Ammount the pobibility of opening more spaces goes down each cell opened
+
+	public static final int Y_OFFSET = 25;
 	
 	public static boolean FIRST_RECURSIVE = true;
 	
