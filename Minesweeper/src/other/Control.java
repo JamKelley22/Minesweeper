@@ -65,13 +65,19 @@ public class Control implements MouseListener{
 			boolean rightClick = SwingUtilities.isRightMouseButton(arg0);
 			boolean cellIsMine = false;
 			
+			int clickXPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x;
+			int clickYPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET;
 			
-			Cell c = game.getClosestCell(Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x, 
-					Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET);
-			cellIsMine = c.isMine();
-			if(rightClick)
+			Cell c = game.getClosestCell(clickXPos, clickYPos);
+			//cellIsMine = c.isMine();
+			
+			if(leftClick && clickYPos < 0) {
+				this.checkToolBar(clickXPos);
+			}
+			
+			if(rightClick && c != null)
 				c.swapFlagState();
-			else if(leftClick && c.isFlag() == false) {//Open Cell
+			else if((c != null) & leftClick && c.isFlag() == false) {//Open Cell
 				if(c.openCell() && !c.isMine()) {
 					if(Config.FIRST_RECURSIVE) {
 						game.recursiveOpen(c, Config.FIRST_OPEN_NEIGHBORS_PROB);
@@ -88,11 +94,19 @@ public class Control implements MouseListener{
 				}
 			}
 			
-			System.out.println(c);
-			
-			System.out.println(game.getNeighborMineNum(c.getPosX(), c.getPosY()));
+			if(c != null) {//Debug
+				System.out.println(c);
+				
+				System.out.println(game.getNeighborMineNum(c.getPosX(), c.getPosY()));
+			}
 		}
 		
+	}
+
+	private void checkToolBar(int clickXPos) {
+		if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - Config.BUTTON_WIDTH) {//Exit button
+			System.exit(0);
+		}
 	}
 
 }

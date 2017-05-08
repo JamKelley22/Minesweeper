@@ -53,9 +53,12 @@ public class View extends JFrame implements Updatable{
 			}
  		}
 		
-		if(Config.GAME_END) {
+		int gamePixels = Config.CELL_DISTANCE * Config.GAME_SIZE;
+		g2D.setColor(Color.RED);
+		g2D.fill3DRect(gamePixels - Config.BUTTON_WIDTH, 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		
+		if(Config.GAME_END) {//End of game
 			g2D.setColor(Color.BLACK);
-			
 			g2D.setFont(Config.GAME_OVER_FONT);
 			int gameCenter = (int)((Config.GAME_SIZE * Config.CELL_DISTANCE) / 2.0);
 			g2D.drawString("Game Over",gameCenter - (int)(Config.GAME_OVER_FONT.getSize() * 2.5), gameCenter + Config.Y_OFFSET);//Change numbers

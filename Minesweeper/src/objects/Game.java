@@ -70,10 +70,15 @@ public class Game {
 	 * 
 	 * @param x X position of curser in pixels
 	 * @param y Y position of curser in pixels
-	 * @return the cell in Game that is closest to this x,y position
+	 * @return the cell in Game that is closest to this x,y position if y > 0, else null
 	 */
 	public Cell getClosestCell(int x, int y) {
-		return cells[x / Config.CELL_DISTANCE][y / Config.CELL_DISTANCE];
+		if(y > 0) {
+			return cells[x / Config.CELL_DISTANCE][y / Config.CELL_DISTANCE];
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public Cell[] getNeighbors(int posX, int posY) {

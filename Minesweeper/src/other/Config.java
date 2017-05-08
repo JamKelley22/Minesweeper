@@ -35,6 +35,8 @@ public class Config {
 	public static final Color CELL_COLOR_MINE = Color.RED.brighter();
 	
 
+	public static final int BUTTON_WIDTH = 50;
+	
 	public static final int FONT_SIZE = 20;
 	
 	public static final Font GAME_OVER_FONT = new Font("TimesRoman", Font.BOLD, (int)(Config.GAME_SIZE * 3)); 
