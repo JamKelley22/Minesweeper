@@ -10,15 +10,22 @@ import javax.swing.SwingUtilities;
 
 import objects.Cell;
 import objects.Game;
+import view.View;
 
 public class Control implements MouseListener{
 
 	private Game game;
 	private JFrame frame;
+	private View view;
 	
-	public Control(Game game, JFrame frame) {
+	public Control(Game game, JFrame frame, View view) {
 		this.game = game;
 		this.frame = frame;
+		this.view = view;
+	}
+	
+	public void setView() {
+		
 	}
 
 	@Override
@@ -49,6 +56,8 @@ public class Control implements MouseListener{
 		
 		if(leftClick && clickYPos < 0 && clickXPos <= (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 3) ) {
 			Config.ISMOVING = true;
+			view.setLastXPos(MouseInfo.getPointerInfo().getLocation().x);
+			view.setLastYPos(MouseInfo.getPointerInfo().getLocation().y);
 			System.out.println("MOVE");
 		}
 		
@@ -64,7 +73,7 @@ public class Control implements MouseListener{
 		
 		
 		
-		if(leftClick && clickYPos < 0 && !Config.ISMOVING) {
+		if(leftClick && clickYPos < 0 && !Config.ISMOVING) {//TOOLBAR
 			this.checkToolBar(clickXPos);
 		}
 		
@@ -80,8 +89,9 @@ public class Control implements MouseListener{
 			
 			
 			
-			if(rightClick && c != null)
+			if(rightClick && c != null && !c.isOpen()) {//SWAP FLAG
 				c.swapFlagState();
+			}
 			else if((c != null) & leftClick && c.isFlag() == false) {//Open Cell
 				if(c.openCell() && !c.isMine()) {
 					if(Config.FIRST_RECURSIVE) {
@@ -105,6 +115,8 @@ public class Control implements MouseListener{
 				System.out.println(game.getNeighborMineNum(c.getPosX(), c.getPosY()));
 			}
 		}
+		
+		
 		Config.ISMOVING = false;
 	}
 

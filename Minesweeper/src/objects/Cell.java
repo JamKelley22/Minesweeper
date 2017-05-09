@@ -92,7 +92,8 @@ public class Cell {
 			graphics.setColor(Config.MINE_NUM_COLOR);
 			graphics.setFont(new Font("TimesRoman", Font.PLAIN, Config.FONT_SIZE)); 
 			graphics.drawString(Integer.toString(game.getNeighborMineNum(this.posX, this.posY)), 
-					newX + Config.FLAG_DIFF, newY + Config.CELL_DISTANCE - (Config.FLAG_DIFF / 2) - 1 + Config.Y_OFFSET);//-1 to center
+					newX + (int)(Config.FLAG_DIFF * (Config.CELL_DISTANCE / 20.0)) + 1, 
+					newY + Config.CELL_DISTANCE - ((int)(Config.FLAG_DIFF * (Config.CELL_DISTANCE / 20.0)) / 2) - 2 + Config.Y_OFFSET);//-1 to center
 		}
 	}
 	
@@ -101,7 +102,7 @@ public class Cell {
 	 * @return if the Cell is already open returns false, else true
 	 */
 	public boolean openCell() {
-		if(!this.open) {
+		if(!this.open && !this.flag) {
 			if(this.mine) {
 				this.setColor(Config.CELL_COLOR_MINE);
 			}

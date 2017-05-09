@@ -24,6 +24,7 @@ public class View extends JFrame implements Updatable{
 	private VolatileImage image;
 	
 	private Game game;
+	private Control control;
 	
 	private int lastXPos;
 	private int lastYPos;
@@ -34,15 +35,14 @@ public class View extends JFrame implements Updatable{
 		JPanel jp = new JPanel();
 		jp.setPreferredSize(new Dimension(width, height));
 		this.add(jp);
-		Control control = new Control(game, this);
+		Control control = new Control(game, this, this);
+		this.control = control;
 		jp.addMouseListener(control);
 		this.pack();
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
-		lastXPos = MouseInfo.getPointerInfo().getLocation().x;
-		lastYPos = MouseInfo.getPointerInfo().getLocation().y;
 		image = this.createVolatileImage(width, height);
 		graphics = jp.getGraphics();
 	}
@@ -60,7 +60,7 @@ public class View extends JFrame implements Updatable{
 			int xDiff = holdXPos - this.lastXPos;
 			int yDiff = holdYPos - this.lastYPos;
 			
-			this.setLocation(this.getX() - xDiff, this.getY() - yDiff);
+			this.setLocation(this.getX() + xDiff, this.getY() + yDiff);
 			
 			this.lastXPos = holdXPos;
 			this.lastYPos = holdYPos;
@@ -110,4 +110,13 @@ public class View extends JFrame implements Updatable{
 		
 		
 	}
+
+	public void setLastXPos(int lastXPos) {
+		this.lastXPos = lastXPos;
+	}
+
+	public void setLastYPos(int lastYPos) {
+		this.lastYPos = lastYPos;
+	}
+	
 }

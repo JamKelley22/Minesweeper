@@ -154,6 +154,7 @@ public class Game {
 
 	public void recursiveOpen(Cell c, int prob) {
 		if(!c.isMine()) {
+			
 			Cell[] cellNeighbors = this.getCardnalNeighbors(c.getPosX(), c.getPosY());
 			
 			for(int i = 0; i < cellNeighbors.length; i++) {
