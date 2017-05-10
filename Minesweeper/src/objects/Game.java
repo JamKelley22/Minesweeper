@@ -194,6 +194,19 @@ public class Game {
 			}
 		}
 	}
+	
+	public void win() {//TODO
+		for(int i = 0; i < cells.length; i++) {
+			for(int j = 0; j < cells[i].length; j++) {
+				if(cells[i][j].isMine()) {
+					cells[i][j].openCell();
+					//this.clock.stop();
+					Config.GAME_END = true;
+					Config.WON_GAME = true;
+				}
+			}
+		}
+	}
 
 	public void fillClosedCells() {
 		for(int i = 0; i < this.sizeX; i++) {

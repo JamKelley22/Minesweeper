@@ -109,6 +109,12 @@ public class Control implements MouseListener{
 				}
 			}
 			
+			boolean wonGame = this.checkWin();
+			
+			if(wonGame) {
+				game.win();
+			}
+			
 			if(c != null) {//Debug
 				System.out.println(c);
 				
@@ -138,6 +144,18 @@ public class Control implements MouseListener{
 			}
 			//System.out.println("MAX");
 		}
+	}
+	
+	private boolean checkWin() {
+		Cell[][] cells = game.getCells();
+		for(int i = 0; i < cells.length; i++) {
+			for(int j = 0; j < cells[i].length; j++) {
+				if((!cells[i][j].isOpen() && !cells[i][j].isFlag())) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

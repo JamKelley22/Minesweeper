@@ -14,7 +14,7 @@ public class Config {
 	
 	public static final int DIFFICULITY = 25;
 	
-	public static final int GAME_SIZE = 10;
+	public static final int GAME_SIZE = 20;
 	
 	
 	public static final int Y_OFFSET = 25;
@@ -62,6 +62,9 @@ public class Config {
 	public static boolean GAME_END = false;
 
 	public static boolean ISMOVING;
+
+
+	public static boolean WON_GAME = false;
 	
 	
 	public static Point subtract(Point p1, Point p2) {
