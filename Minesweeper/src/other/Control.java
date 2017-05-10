@@ -54,7 +54,7 @@ public class Control implements MouseListener{
 		int clickXPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x;
 		int clickYPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET;
 		
-		if(leftClick && clickYPos < 0 && clickXPos <= (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 3) ) {
+		if(leftClick && clickYPos < 0 && clickXPos <= (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 4) ) {
 			Config.ISMOVING = true;
 			view.setLastXPos(MouseInfo.getPointerInfo().getLocation().x);
 			view.setLastYPos(MouseInfo.getPointerInfo().getLocation().y);
@@ -71,11 +71,6 @@ public class Control implements MouseListener{
 		int clickXPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x;
 		int clickYPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET;
 		
-		
-		
-		if(leftClick && clickYPos < 0 && !Config.ISMOVING) {//TOOLBAR
-			this.checkToolBar(clickXPos);
-		}
 		
 		
 		if(!Config.GAME_END && !Config.ISMOVING) {
@@ -115,10 +110,19 @@ public class Control implements MouseListener{
 				game.win();
 			}
 			
+			if(leftClick && clickYPos < 0 && !Config.ISMOVING) {//TOOLBAR
+				this.checkToolBar(clickXPos);
+			}
+			
 			if(c != null) {//Debug
 				System.out.println(c);
 				
 				System.out.println(game.getNeighborMineNum(c.getPosX(), c.getPosY()));
+			}
+		}
+		else if(Config.GAME_END && !Config.ISMOVING) {
+			if(leftClick && clickYPos < 0 && !Config.ISMOVING) {//TOOLBAR
+				this.checkToolBar(clickXPos);
 			}
 		}
 		
@@ -143,6 +147,10 @@ public class Control implements MouseListener{
 				Config.IS_MAX_FRAME = true;
 			}
 			//System.out.println("MAX");
+		}
+		else if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 4)) {//RESET GAME
+			game.reset();
+			System.out.println("RESET");
 		}
 	}
 	

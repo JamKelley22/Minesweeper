@@ -73,31 +73,54 @@ public class View extends JFrame implements Updatable{
 			}
  		}
 		
+		
+		this.drawButton(0, "x", Color.RED, g2D);//Exit Button
+		this.drawButton(1, "-", Color.YELLOW, g2D);//Minimize Button
+		this.drawButton(2, "+", Color.GREEN, g2D);//Maximize Button
+		this.drawButton(3, "r", Color.LIGHT_GRAY, g2D);//RESET BUTTON
+		
+		
+		/*
 		//ToolBar
 		int gamePixels = Config.CELL_DISTANCE * Config.GAME_SIZE;
 		int xSizeOffset = 8;
+		
+		int buttonNum = 1;
+		Color buttonColor;
+		String buttonSymbol;
+		
 		//Exit Button
 		g2D.setColor(Color.RED);
-		g2D.fill3DRect(gamePixels - Config.BUTTON_WIDTH, 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
 		g2D.setColor(Color.GRAY.darker().darker());
 		g2D.setFont(Config.TOOLBAR_FONT);
-		g2D.drawString("x", gamePixels - (Config.BUTTON_WIDTH / 2) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
+		g2D.drawString("x", gamePixels - (Config.BUTTON_WIDTH / 2)  - (Config.BUTTON_WIDTH * 0) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
 		
 		//Minimize Button
 		//frame.setState(Frame.ICONIFIED);
+		buttonNum = 2;
 		g2D.setColor(Color.YELLOW);
-		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * 2), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
 		g2D.setColor(Color.GRAY.darker().darker());
 		g2D.setFont(Config.TOOLBAR_FONT);
-		g2D.drawString("-", gamePixels - (Config.BUTTON_WIDTH / 2) - (Config.BUTTON_WIDTH) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
+		g2D.drawString("-", gamePixels - (Config.BUTTON_WIDTH / 2) - (Config.BUTTON_WIDTH * 1) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
 		
 		//Maximize Button
+		buttonNum = 3;
 		g2D.setColor(Color.GREEN);
-		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * 3), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
 		g2D.setColor(Color.GRAY.darker().darker());
 		g2D.setFont(Config.TOOLBAR_FONT);
 		g2D.drawString("+", gamePixels - (Config.BUTTON_WIDTH / 2) - (Config.BUTTON_WIDTH * 2) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
 		
+		//RESET BUTTON
+		buttonNum = 4;
+		g2D.setColor(Color.LIGHT_GRAY.brighter());
+		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		g2D.setColor(Color.GRAY.darker().darker());
+		g2D.setFont(Config.TOOLBAR_FONT);
+		g2D.drawString("+", gamePixels - (Config.BUTTON_WIDTH / 2) - (Config.BUTTON_WIDTH * 2) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
+		*/
 		
 		
 		if(Config.GAME_END) {//End of game
@@ -130,6 +153,18 @@ public class View extends JFrame implements Updatable{
 
 	public void setLastYPos(int lastYPos) {
 		this.lastYPos = lastYPos;
+	}
+	
+	private void drawButton(int buttonNum, String buttonSymbol, Color buttonColor, Graphics g2D) {
+		buttonNum++;
+		int gamePixels = Config.CELL_DISTANCE * Config.GAME_SIZE;
+		int xSizeOffset = 8;
+		
+		g2D.setColor(buttonColor);
+		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		g2D.setColor(Color.GRAY.darker().darker());
+		g2D.setFont(Config.TOOLBAR_FONT);
+		g2D.drawString(buttonSymbol, gamePixels - (Config.BUTTON_WIDTH / 2)  - (Config.BUTTON_WIDTH * (buttonNum - 1)) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
 	}
 	
 }

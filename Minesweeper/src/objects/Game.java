@@ -30,6 +30,9 @@ public class Game {
 	public void reset() {
 		//TODO
 		closeAllCells();
+		Config.resetVars();
+		cells = new Cell[this.sizeX][this.sizeY];
+		createEmptyCells();
 	}
 	
 	public void newGame() {

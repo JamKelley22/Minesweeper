@@ -35,7 +35,7 @@ public class Config {
 	public static final Color CELL_COLOR_MINE = Color.RED.brighter();
 	
 
-	public static final int BUTTON_WIDTH = 50;
+	public static final int BUTTON_WIDTH = 35;
 	
 	public static final int FONT_SIZE = 20;
 	
@@ -61,7 +61,7 @@ public class Config {
 	
 	public static boolean GAME_END = false;
 
-	public static boolean ISMOVING;
+	public static boolean ISMOVING = false;
 
 
 	public static boolean WON_GAME = false;
@@ -69,5 +69,13 @@ public class Config {
 	
 	public static Point subtract(Point p1, Point p2) {
 	    return new Point(p1.x - p2.x, p1.y - p2.y);//-25 to adjust for close screen offset
+	}
+	
+	public static void resetVars() {
+		Config.FIRST_CLICK_RECURSIVE = true;
+		Config.FIRST_RECURSIVE = true;
+		Config.IS_MAX_FRAME = false;
+		Config.GAME_END = false;
+		Config.WON_GAME = false;
 	}
 }
