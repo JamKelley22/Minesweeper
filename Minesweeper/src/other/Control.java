@@ -90,10 +90,11 @@ public class Control implements MouseListener{
 			else if((c != null) & leftClick && c.isFlag() == false) {//Open Cell
 				if(c.openCell() && !c.isMine()) {
 					if(Config.FIRST_RECURSIVE) {
+						game.fillClosedCells();//fill cells
 						game.recursiveOpen(c, Config.FIRST_OPEN_NEIGHBORS_PROB);
 						Config.FIRST_RECURSIVE = false;
 						Config.FIRST_CLICK_RECURSIVE = false;
-						game.fillClosedCells();
+						
 					}
 					else {
 						game.recursiveOpen(c, Config.OPEN_NEIGHBORS_PROB);
