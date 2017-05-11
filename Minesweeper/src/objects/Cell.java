@@ -1,8 +1,11 @@
 package objects;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
 
 import other.Config;
 
@@ -77,23 +80,64 @@ public class Cell {
 	}
 
 	public void fillCell(Graphics graphics, Game game) {
+		Graphics2D g2D = (Graphics2D) graphics;
+        g2D.setStroke(new BasicStroke(2));
+        
 		graphics.setColor(this.color);
 		int newX = this.posX * Config.CELL_DISTANCE;
 		int newY = this.posY * Config.CELL_DISTANCE;
 		graphics.fill3DRect(newX, 
 				newY + Config.Y_OFFSET, Config.CELL_DISTANCE, 
 				Config.CELL_DISTANCE, true);
-		if(this.isFlag()) {
-			graphics.setColor(Config.FLAG_COLOR);
-			graphics.fillRect(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF + Config.Y_OFFSET,
-					Config.FLAG_SIZE, Config.FLAG_SIZE);
+		
+		if(!Config.GAME_END) {
+			if(this.isFlag()) {
+				graphics.setColor(Config.FLAG_COLOR);
+				graphics.fillRect(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF + Config.Y_OFFSET,
+						Config.FLAG_SIZE, Config.FLAG_SIZE);
+			}
+			if(this.open && !this.mine) {
+				graphics.setColor(Config.MINE_NUM_COLOR);
+				graphics.setFont(new Font("TimesRoman", Font.PLAIN, Config.FONT_SIZE)); 
+				graphics.drawString(Integer.toString(game.getNeighborMineNum(this.posX, this.posY)), 
+						newX + (int)(Config.FLAG_DIFF * (Config.CELL_DISTANCE / 20.0)) + 1, 
+						newY + Config.CELL_DISTANCE - ((int)(Config.FLAG_DIFF * (Config.CELL_DISTANCE / 20.0)) / 2) - 2 + Config.Y_OFFSET);//-1 to center
+			}
 		}
-		if(this.open && !this.mine) {
-			graphics.setColor(Config.MINE_NUM_COLOR);
-			graphics.setFont(new Font("TimesRoman", Font.PLAIN, Config.FONT_SIZE)); 
-			graphics.drawString(Integer.toString(game.getNeighborMineNum(this.posX, this.posY)), 
-					newX + (int)(Config.FLAG_DIFF * (Config.CELL_DISTANCE / 20.0)) + 1, 
-					newY + Config.CELL_DISTANCE - ((int)(Config.FLAG_DIFF * (Config.CELL_DISTANCE / 20.0)) / 2) - 2 + Config.Y_OFFSET);//-1 to center
+		else {
+			if(this.isFlag()) {
+				if(this.isMine()) {//correct flag placement
+					graphics.setColor(Color.GREEN);
+					graphics.fillRect(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF + Config.Y_OFFSET,
+							Config.FLAG_SIZE, Config.FLAG_SIZE);
+				}
+				else {//Incorrect flag placement
+					graphics.setColor(Color.BLUE);
+					graphics.fillRect(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF + Config.Y_OFFSET,
+							Config.FLAG_SIZE, Config.FLAG_SIZE);
+					graphics.setColor(Color.RED);
+					
+					g2D.drawLine(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF + Config.Y_OFFSET,
+							newX + Config.FLAG_DIFF + Config.FLAG_SIZE, newY + Config.FLAG_DIFF + Config.Y_OFFSET + Config.FLAG_SIZE);
+					g2D.drawLine(newX + Config.FLAG_DIFF + Config.FLAG_SIZE, newY + Config.FLAG_DIFF + Config.Y_OFFSET,
+							newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF + Config.Y_OFFSET + Config.FLAG_SIZE);
+				}
+				
+			}
+			else {
+				if(this.isMine()) {//Mine not marked
+//					graphics.setColor(Color.BLACK);
+//					graphics.fillRect(newX + Config.FLAG_DIFF, newY + Config.FLAG_DIFF + Config.Y_OFFSET,
+//							Config.FLAG_SIZE, Config.FLAG_SIZE);
+				}
+			}
+			if(this.open && !this.mine) {
+				graphics.setColor(Config.MINE_NUM_COLOR);
+				graphics.setFont(new Font("TimesRoman", Font.PLAIN, Config.FONT_SIZE)); 
+				graphics.drawString(Integer.toString(game.getNeighborMineNum(this.posX, this.posY)), 
+						newX + (int)(Config.FLAG_DIFF * (Config.CELL_DISTANCE / 20.0)) + 1, 
+						newY + Config.CELL_DISTANCE - ((int)(Config.FLAG_DIFF * (Config.CELL_DISTANCE / 20.0)) / 2) - 2 + Config.Y_OFFSET);//-1 to center
+			}
 		}
 	}
 	
