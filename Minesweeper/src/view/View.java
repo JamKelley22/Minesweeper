@@ -29,6 +29,11 @@ public class View extends JFrame implements Updatable{
 	private int lastXPos;
 	private int lastYPos;
 	
+	private Color exitButtonColor = Config.EXIT_BUTTON_COLOR;
+	private Color minButtonColor = Config.MIN_BUTTON_COLOR;
+	private Color maxButtonColor = Config.MAX_BUTTON_COLOR;
+	private Color resetButtonColor = Config.RESET_BUTTON_COLOR;
+	
 	public View(int width, int height, Game game) {
 		this.setUndecorated(true);
 		this.game = game;
@@ -38,6 +43,7 @@ public class View extends JFrame implements Updatable{
 		Control control = new Control(game, this, this);
 		this.control = control;
 		jp.addMouseListener(control);
+		jp.addMouseMotionListener(control);
 		this.pack();
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -74,10 +80,10 @@ public class View extends JFrame implements Updatable{
  		}
 		
 		
-		this.drawButton(0, "x", Color.RED, g2D);//Exit Button
-		this.drawButton(1, "-", Color.YELLOW, g2D);//Minimize Button
-		this.drawButton(2, "+", Color.GREEN, g2D);//Maximize Button
-		this.drawButton(3, "r", Color.LIGHT_GRAY, g2D);//RESET BUTTON
+		this.drawButton(0, "x", exitButtonColor, g2D);//Exit Button
+		this.drawButton(1, "-", minButtonColor, g2D);//Minimize Button
+		this.drawButton(2, "+", maxButtonColor, g2D);//Maximize Button
+		this.drawButton(3, "r", resetButtonColor, g2D);//RESET BUTTON
 		
 		
 		/*
@@ -165,6 +171,22 @@ public class View extends JFrame implements Updatable{
 		g2D.setColor(Color.GRAY.darker().darker());
 		g2D.setFont(Config.TOOLBAR_FONT);
 		g2D.drawString(buttonSymbol, gamePixels - (Config.BUTTON_WIDTH / 2)  - (Config.BUTTON_WIDTH * (buttonNum - 1)) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
+	}
+
+	public void setExitButtonColor(Color exitButtonColor) {
+		this.exitButtonColor = exitButtonColor;
+	}
+
+	public void setMinButtonColor(Color minButtonColor) {
+		this.minButtonColor = minButtonColor;
+	}
+
+	public void setMaxButtonColor(Color maxButtonColor) {
+		this.maxButtonColor = maxButtonColor;
+	}
+
+	public void setResetButtonColor(Color resetButtonColor) {
+		this.resetButtonColor = resetButtonColor;
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.awt.MouseInfo;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -12,7 +13,7 @@ import objects.Cell;
 import objects.Game;
 import view.View;
 
-public class Control implements MouseListener{
+public class Control implements MouseListener, MouseMotionListener{
 
 	private Game game;
 	private JFrame frame;
@@ -71,8 +72,6 @@ public class Control implements MouseListener{
 		int clickXPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x;
 		int clickYPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET;
 		
-		
-		
 		if(!Config.GAME_END && !Config.ISMOVING) {
 			
 			boolean cellIsMine = false;
@@ -112,8 +111,10 @@ public class Control implements MouseListener{
 			}
 			
 			if(leftClick && clickYPos < 0 && !Config.ISMOVING) {//TOOLBAR
-				this.checkToolBar(clickXPos);
+				this.checkToolBar(clickXPos, true);
 			}
+			
+			
 			
 			if(c != null) {//Debug
 				System.out.println(c);
@@ -122,8 +123,8 @@ public class Control implements MouseListener{
 			}
 		}
 		else if(Config.GAME_END && !Config.ISMOVING) {
-			if(leftClick && clickYPos < 0 && !Config.ISMOVING) {//TOOLBAR
-				this.checkToolBar(clickXPos);
+			if(leftClick && clickYPos < 0 && !Config.ISMOVING) {//TOOLBAR(WHEN GAME IS ENDED)
+				this.checkToolBar(clickXPos, true);
 			}
 		}
 		
@@ -131,28 +132,76 @@ public class Control implements MouseListener{
 		Config.ISMOVING = false;
 	}
 
-	private void checkToolBar(int clickXPos) {
+	private void checkToolBar(int clickXPos, boolean clicked) {
 		if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - Config.BUTTON_WIDTH) {//Exit button
-			System.exit(0);
-		}
-		else if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 2)) {//Minimize
-			frame.setState(Frame.ICONIFIED);
-		}
-		else if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 3)) {//Maximize
-			if(Config.IS_MAX_FRAME) {
-				frame.setExtendedState(JFrame.NORMAL);
-				Config.IS_MAX_FRAME = false;
+			if(clicked) {
+				System.exit(0);
 			}
 			else {
-				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				Config.IS_MAX_FRAME = true;
+				view.setExitButtonColor(Config.EXIT_BUTTON_COLOR.darker());
+				//Reset others
+				view.setMinButtonColor(Config.MIN_BUTTON_COLOR);
+				view.setMaxButtonColor(Config.MAX_BUTTON_COLOR);
+				view.setResetButtonColor(Config.RESET_BUTTON_COLOR);
 			}
-			//System.out.println("MAX");
+		}
+		else if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 2)) {//Minimize
+			if(clicked) {
+				frame.setState(Frame.ICONIFIED);
+			}
+			else {
+				view.setMinButtonColor(Config.MIN_BUTTON_COLOR.darker());
+				//Reset others
+				view.setExitButtonColor(Config.EXIT_BUTTON_COLOR);
+				view.setMaxButtonColor(Config.MAX_BUTTON_COLOR);
+				view.setResetButtonColor(Config.RESET_BUTTON_COLOR);
+			}
+		}
+		else if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 3)) {//Maximize
+			if(clicked) {
+				if(Config.IS_MAX_FRAME) {
+					frame.setExtendedState(JFrame.NORMAL);
+					Config.IS_MAX_FRAME = false;
+				}
+				else {
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					Config.IS_MAX_FRAME = true;
+				}
+				//System.out.println("MAX");
+			}
+			else {
+				view.setMaxButtonColor(Config.MAX_BUTTON_COLOR.darker());
+				//Reset others
+				view.setExitButtonColor(Config.EXIT_BUTTON_COLOR);
+				view.setMinButtonColor(Config.MIN_BUTTON_COLOR);
+				view.setResetButtonColor(Config.RESET_BUTTON_COLOR);
+			}
 		}
 		else if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 4)) {//RESET GAME
-			game.reset();
-			System.out.println("RESET");
+			if(clicked) {
+				game.reset();
+				System.out.println("RESET");
+			}
+			else {
+				view.setResetButtonColor(Config.RESET_BUTTON_COLOR.darker());
+				//Reset others
+				view.setExitButtonColor(Config.EXIT_BUTTON_COLOR);
+				view.setMinButtonColor(Config.MIN_BUTTON_COLOR);
+				view.setMaxButtonColor(Config.MAX_BUTTON_COLOR);
+			}
 		}
+		else {
+			this.resetToolbarColors();//Left of toolbar buttons
+			
+		}
+		//TODO add game size select
+	}
+	
+	private void resetToolbarColors() {
+		view.setExitButtonColor(Config.EXIT_BUTTON_COLOR);
+		view.setMinButtonColor(Config.MIN_BUTTON_COLOR);
+		view.setMaxButtonColor(Config.MAX_BUTTON_COLOR);
+		view.setResetButtonColor(Config.RESET_BUTTON_COLOR);
 	}
 	
 	private boolean checkWin() {
@@ -165,6 +214,29 @@ public class Control implements MouseListener{
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int hoverYPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET;
+		int hoverXPos = 0;
+		if(hoverYPos < 0) {
+			hoverXPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x;
+			this.checkToolBar(hoverXPos,false);
+		}
+		else {
+			this.resetToolbarColors();
+		}
+		System.out.println("XPos: " + hoverXPos + "  |  YPos: " + hoverYPos);
+		
+		
 	}
 
 }

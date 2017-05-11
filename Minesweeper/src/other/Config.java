@@ -51,6 +51,7 @@ public class Config {
 	public static final int RECURSIVE_PROB_DIFF = 15;//Ammount the pobibility of opening more spaces goes down each cell opened
 
 	public static final int FIRST_RECURSIVE_PROB_DIFF = 25;//More spaces will open with first click
+
 	
 
 	public static boolean FIRST_CLICK_RECURSIVE = true;
@@ -65,6 +66,15 @@ public class Config {
 
 
 	public static boolean WON_GAME = false;
+
+
+	public static Color EXIT_BUTTON_COLOR = Color.RED;
+	
+	public static Color MIN_BUTTON_COLOR = Color.YELLOW;
+	
+	public static Color MAX_BUTTON_COLOR = Color.GREEN;
+	
+	public static Color RESET_BUTTON_COLOR = Color.GRAY;
 	
 	
 	public static Point subtract(Point p1, Point p2) {
