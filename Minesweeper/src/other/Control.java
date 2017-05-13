@@ -24,10 +24,6 @@ public class Control implements MouseListener, MouseMotionListener{
 		this.frame = frame;
 		this.view = view;
 	}
-	
-	public void setView() {
-		
-	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -85,8 +81,10 @@ public class Control implements MouseListener, MouseMotionListener{
 			
 			if(rightClick && c != null && !c.isOpen()) {//SWAP FLAG
 				c.swapFlagState();
+				Config.FIRST_CLICK = true;
 			}
 			else if((c != null) & leftClick && c.isFlag() == false) {//Open Cell
+				Config.FIRST_CLICK = true;
 				if(c.openCell() && !c.isMine()) {
 					if(Config.FIRST_RECURSIVE) {
 						game.fillClosedCells();//fill cells

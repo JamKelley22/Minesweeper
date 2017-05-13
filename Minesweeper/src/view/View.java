@@ -31,7 +31,10 @@ public class View extends JFrame implements Updatable{
 	private int lastYPos;
 	
 	private int frameCounter = 0;
-	private int timeSec = 0;
+	private int timeSec1 = 0;
+	private int timeSec10 = 0;
+	private int timeSec100 = 0;
+	
 	
 	private Color exitButtonColor = Config.EXIT_BUTTON_COLOR;
 	private Color minButtonColor = Config.MIN_BUTTON_COLOR;
@@ -99,19 +102,19 @@ public class View extends JFrame implements Updatable{
 			g2D.setFont(Config.GAME_OVER_FONT);
 			int gameCenter = (int)((Config.GAME_SIZE * Config.CELL_DISTANCE) / 2.0);
 			
-			g2D.fill3DRect(gameCenter - (int)(Config.GAME_OVER_FONT.getSize() * 2.5), gameCenter + Config.Y_OFFSET - (int)(Config.GAME_SIZE * 3) + 5, (int)(Config.GAME_SIZE * 15), (int)(Config.GAME_SIZE * 3), true);
-			String endMessage;
-			if(Config.WON_GAME) {
-				g2D.setColor(Color.GREEN);
-				endMessage = "YOU WIN!";
-			}
-			else {
-				g2D.setColor(Color.RED);
-				endMessage = "Game Over";
-			}
+//			g2D.fill3DRect(gameCenter - (int)(Config.GAME_OVER_FONT.getSize() * 2.5), gameCenter + Config.Y_OFFSET - (int)(Config.GAME_SIZE * 3) + 5, (int)(Config.GAME_SIZE * 15), (int)(Config.GAME_SIZE * 3), true);
+//			String endMessage;
+//			if(Config.WON_GAME) {
+//				g2D.setColor(Color.GREEN);
+//				endMessage = "YOU WIN!";
+//			}
+//			else {
+//				g2D.setColor(Color.RED);
+//				endMessage = "Game Over";
+//			}
 			
 			
-			g2D.drawString(endMessage,gameCenter - (int)(Config.GAME_OVER_FONT.getSize() * 2.5), gameCenter + Config.Y_OFFSET);//Change numbers
+//			g2D.drawString(endMessage,gameCenter - (int)(Config.GAME_OVER_FONT.getSize() * 2.5), gameCenter + Config.Y_OFFSET);//Change numbers
 		}
 		
 		
@@ -144,24 +147,44 @@ public class View extends JFrame implements Updatable{
 	}
 
 	private void drawTime(Graphics g2D) {
+		int yCenteringText = 18;
+		int xShift = Config.CELL_DISTANCE * 8;
+		int xDrawText = (int)(Config.CELL_DISTANCE) + 4;
+		
+		g2D.setColor(Config.TOOLBAR_COLOR);
+		g2D.fillRect(0, 0, this.getWidth(), Config.Y_OFFSET);//Color fill
+		
+		g2D.setColor(Color.DARK_GRAY.darker());
+		for(int i = 0; i < 3; i++) {
+			g2D.fillRect(i * Config.CELL_DISTANCE + xShift, 0, Config.CELL_DISTANCE, Config.Y_OFFSET);
+		}
+		
+		g2D.setColor(Color.WHITE);
+		
+		g2D.drawLine(Config.CELL_DISTANCE + xShift, 0, Config.CELL_DISTANCE + xShift, Config.Y_OFFSET);
+		g2D.drawLine((Config.CELL_DISTANCE * 2) + xShift, 0, (Config.CELL_DISTANCE * 2) + xShift, Config.Y_OFFSET);
+		
 		if(this.frameCounter >= Config.FPS) {
-			g2D.setColor(Config.TOOLBAR_COLOR);
-			g2D.fillRect(0, 0, this.getWidth(), Config.Y_OFFSET);
-			
-			g2D.setColor(Color.BLACK);
-			g2D.setFont(Config.TIME_FONT);
 			this.frameCounter = 0;
-			this.timeSec++;
-			g2D.drawString(Integer.toString(this.timeSec), 10, 18);
+			if(!(timeSec1 == 9 && timeSec10 == 9 && timeSec100 == 9) && Config.FIRST_CLICK) {
+				this.timeSec1++;
+				if(timeSec1 >= 10) {
+					timeSec1 = 0;
+					timeSec10++;
+					if(timeSec10 >= 10) {
+						timeSec10 = 0;
+						if(timeSec100 < 9) {
+							timeSec100++;
+						}
+						
+					}
+				}
+			}
 		}
-		else {
-			g2D.setColor(Config.TOOLBAR_COLOR);
-			g2D.fillRect(0, 0, this.getWidth(), Config.Y_OFFSET);
-			
-			g2D.setColor(Color.BLACK);
-			g2D.setFont(Config.TIME_FONT);
-			g2D.drawString(Integer.toString(this.timeSec), 10, 18);
-		}
+		g2D.setFont(Config.TIME_FONT);
+		g2D.drawString(Integer.toString(this.timeSec100), xDrawText - Config.CELL_DISTANCE + xShift, yCenteringText);
+		g2D.drawString(Integer.toString(this.timeSec10), xDrawText + xShift, yCenteringText);
+		g2D.drawString(Integer.toString(this.timeSec1), xDrawText + Config.CELL_DISTANCE + xShift, yCenteringText);
 	}
 	
 	public void setExitButtonColor(Color exitButtonColor) {
@@ -178,6 +201,12 @@ public class View extends JFrame implements Updatable{
 
 	public void setResetButtonColor(Color resetButtonColor) {
 		this.resetButtonColor = resetButtonColor;
+	}
+	
+	public void resetClock() {
+		this.timeSec1 = 0;
+		this.timeSec10 = 0;
+		this.timeSec100 = 0;
 	}
 	
 }

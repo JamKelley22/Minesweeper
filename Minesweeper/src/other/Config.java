@@ -59,6 +59,9 @@ public class Config {
 
 	public static final int FIRST_RECURSIVE_PROB_DIFF = 25;//More spaces will open with first click
 
+
+	public static boolean FIRST_CLICK = false;
+
 	
 
 	public static boolean FIRST_CLICK_RECURSIVE = true;

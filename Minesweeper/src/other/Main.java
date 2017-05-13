@@ -16,6 +16,7 @@ public class Main {
 			  public void run() {
 			    View gui = new View(Config.GAME_SIZE * Config.CELL_DISTANCE, 
 			    		Config.GAME_SIZE * Config.CELL_DISTANCE + Config.Y_OFFSET, game);
+			    game.setView(gui);
 			    try {
 				      Thread.sleep(50);
 				    } catch (InterruptedException e) {

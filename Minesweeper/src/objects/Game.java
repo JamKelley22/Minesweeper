@@ -3,6 +3,7 @@ package objects;
 import java.util.ArrayList;
 import java.util.Random;
 import other.Config;
+import view.View;
 
 public class Game {
 	
@@ -13,6 +14,7 @@ public class Game {
 	private int dificulity;
 	
 	private Random r = Config.RANDOM;
+	private View view;
 	
 	public Game(int sizeX, int sizeY, boolean wrap, int difficulty) {
 		this.sizeX = sizeX;
@@ -33,6 +35,8 @@ public class Game {
 		Config.resetVars();
 		cells = new Cell[this.sizeX][this.sizeY];
 		createEmptyCells();
+		view.resetClock();
+		Config.FIRST_CLICK = false;
 	}
 	
 	public void newGame() {
@@ -224,6 +228,11 @@ public class Game {
 				}
 			}
 		}
+	}
+
+	public void setView(View gui) {
+		this.view = gui;
+		
 	}
 	
 }
