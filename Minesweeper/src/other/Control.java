@@ -43,7 +43,7 @@ public class Control implements MouseListener, MouseMotionListener{
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		this.resetToolbarColors();
 		
 	}
 

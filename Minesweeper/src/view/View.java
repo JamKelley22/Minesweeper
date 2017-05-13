@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
@@ -28,6 +29,9 @@ public class View extends JFrame implements Updatable{
 	
 	private int lastXPos;
 	private int lastYPos;
+	
+	private int frameCounter = 0;
+	private int timeSec = 0;
 	
 	private Color exitButtonColor = Config.EXIT_BUTTON_COLOR;
 	private Color minButtonColor = Config.MIN_BUTTON_COLOR;
@@ -57,6 +61,7 @@ public class View extends JFrame implements Updatable{
 	public void update() {
 		Graphics2D g2D = image.createGraphics();
 		
+		
 		if(Config.ISMOVING) {//Moving the window
 			int holdXPos = MouseInfo.getPointerInfo().getLocation().x;
 			int holdYPos = MouseInfo.getPointerInfo().getLocation().y;
@@ -79,54 +84,14 @@ public class View extends JFrame implements Updatable{
 			}
  		}
 		
+		if(!Config.GAME_END) {
+			this.drawTime(g2D);
+		}
 		
 		this.drawButton(0, "x", exitButtonColor, g2D);//Exit Button
 		this.drawButton(1, "-", minButtonColor, g2D);//Minimize Button
 		this.drawButton(2, "+", maxButtonColor, g2D);//Maximize Button
 		this.drawButton(3, "r", resetButtonColor, g2D);//RESET BUTTON
-		
-		
-		/*
-		//ToolBar
-		int gamePixels = Config.CELL_DISTANCE * Config.GAME_SIZE;
-		int xSizeOffset = 8;
-		
-		int buttonNum = 1;
-		Color buttonColor;
-		String buttonSymbol;
-		
-		//Exit Button
-		g2D.setColor(Color.RED);
-		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
-		g2D.setColor(Color.GRAY.darker().darker());
-		g2D.setFont(Config.TOOLBAR_FONT);
-		g2D.drawString("x", gamePixels - (Config.BUTTON_WIDTH / 2)  - (Config.BUTTON_WIDTH * 0) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
-		
-		//Minimize Button
-		//frame.setState(Frame.ICONIFIED);
-		buttonNum = 2;
-		g2D.setColor(Color.YELLOW);
-		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
-		g2D.setColor(Color.GRAY.darker().darker());
-		g2D.setFont(Config.TOOLBAR_FONT);
-		g2D.drawString("-", gamePixels - (Config.BUTTON_WIDTH / 2) - (Config.BUTTON_WIDTH * 1) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
-		
-		//Maximize Button
-		buttonNum = 3;
-		g2D.setColor(Color.GREEN);
-		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
-		g2D.setColor(Color.GRAY.darker().darker());
-		g2D.setFont(Config.TOOLBAR_FONT);
-		g2D.drawString("+", gamePixels - (Config.BUTTON_WIDTH / 2) - (Config.BUTTON_WIDTH * 2) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
-		
-		//RESET BUTTON
-		buttonNum = 4;
-		g2D.setColor(Color.LIGHT_GRAY.brighter());
-		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
-		g2D.setColor(Color.GRAY.darker().darker());
-		g2D.setFont(Config.TOOLBAR_FONT);
-		g2D.drawString("+", gamePixels - (Config.BUTTON_WIDTH / 2) - (Config.BUTTON_WIDTH * 2) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
-		*/
 		
 		
 		if(Config.GAME_END) {//End of game
@@ -148,9 +113,12 @@ public class View extends JFrame implements Updatable{
 			
 			g2D.drawString(endMessage,gameCenter - (int)(Config.GAME_OVER_FONT.getSize() * 2.5), gameCenter + Config.Y_OFFSET);//Change numbers
 		}
+		
+		
 		graphics.drawImage(image, 0, 0, null);
 		
 		
+		frameCounter++;
 	}
 
 	public void setLastXPos(int lastXPos) {
@@ -164,15 +132,38 @@ public class View extends JFrame implements Updatable{
 	private void drawButton(int buttonNum, String buttonSymbol, Color buttonColor, Graphics g2D) {
 		buttonNum++;
 		int gamePixels = Config.CELL_DISTANCE * Config.GAME_SIZE;
-		int xSizeOffset = 8;
+		int xSizeOffset = 5;
 		
 		g2D.setColor(buttonColor);
-		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, true);
+		g2D.fill3DRect(gamePixels - (Config.BUTTON_WIDTH * buttonNum), 0, Config.BUTTON_WIDTH, Config.Y_OFFSET,true);
 		g2D.setColor(Color.GRAY.darker().darker());
 		g2D.setFont(Config.TOOLBAR_FONT);
-		g2D.drawString(buttonSymbol, gamePixels - (Config.BUTTON_WIDTH / 2)  - (Config.BUTTON_WIDTH * (buttonNum - 1)) - xSizeOffset, Config.Y_OFFSET / 2  + xSizeOffset );
+		g2D.drawString(buttonSymbol, 
+				gamePixels - (Config.BUTTON_WIDTH / 2)  - (Config.BUTTON_WIDTH * (buttonNum - 1)) - xSizeOffset, 
+				Config.Y_OFFSET / 2  + xSizeOffset );
 	}
 
+	private void drawTime(Graphics g2D) {
+		if(this.frameCounter >= Config.FPS) {
+			g2D.setColor(Config.TOOLBAR_COLOR);
+			g2D.fillRect(0, 0, this.getWidth(), Config.Y_OFFSET);
+			
+			g2D.setColor(Color.BLACK);
+			g2D.setFont(Config.TIME_FONT);
+			this.frameCounter = 0;
+			this.timeSec++;
+			g2D.drawString(Integer.toString(this.timeSec), 10, 18);
+		}
+		else {
+			g2D.setColor(Config.TOOLBAR_COLOR);
+			g2D.fillRect(0, 0, this.getWidth(), Config.Y_OFFSET);
+			
+			g2D.setColor(Color.BLACK);
+			g2D.setFont(Config.TIME_FONT);
+			g2D.drawString(Integer.toString(this.timeSec), 10, 18);
+		}
+	}
+	
 	public void setExitButtonColor(Color exitButtonColor) {
 		this.exitButtonColor = exitButtonColor;
 	}

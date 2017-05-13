@@ -16,8 +16,10 @@ public class Config {
 	
 	public static final int GAME_SIZE = 20;
 	
+	public static final float FPS = 60.0f;
 	
-	public static final int Y_OFFSET = 25;
+	
+	public static final int Y_OFFSET = 20;
 	
 	public static final int FLAG_DIFF = 5;
 	
@@ -34,14 +36,19 @@ public class Config {
 	
 	public static final Color CELL_COLOR_MINE = Color.RED.brighter();
 	
+	public static final Color TOOLBAR_COLOR = Color.GRAY.brighter();
+	
 
-	public static final int BUTTON_WIDTH = 35;
+	public static final int BUTTON_WIDTH = (int)(Config.CELL_DISTANCE * 2);
 	
 	public static final int FONT_SIZE = 20;
 	
+	
 	public static final Font GAME_OVER_FONT = new Font("TimesRoman", Font.BOLD, (int)(Config.GAME_SIZE * 3)); 
 
-	public static final Font TOOLBAR_FONT = new Font("Dialog", Font.PLAIN, 30);
+	public static final Font TOOLBAR_FONT = new Font("Dialog", Font.PLAIN, 20);
+	
+	public static final Font TIME_FONT = new Font("Dialog", Font.PLAIN, 20);
 	
 	
 	public static final int FIRST_OPEN_NEIGHBORS_PROB = 100;
@@ -74,7 +81,7 @@ public class Config {
 	
 	public static Color MAX_BUTTON_COLOR = Color.GREEN;
 	
-	public static Color RESET_BUTTON_COLOR = Color.GRAY;
+	public static Color RESET_BUTTON_COLOR = Color.GRAY.brighter();
 	
 	
 	public static Point subtract(Point p1, Point p2) {
