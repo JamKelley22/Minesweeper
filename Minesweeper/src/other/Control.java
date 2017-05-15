@@ -51,11 +51,16 @@ public class Control implements MouseListener, MouseMotionListener{
 		int clickXPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).x;
 		int clickYPos = Config.subtract(MouseInfo.getPointerInfo().getLocation(), frame.getLocationOnScreen()).y - Config.Y_OFFSET;
 		
-		if(leftClick && clickYPos < 0 && clickXPos <= (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 4) ) {
+		if(leftClick && 
+				clickYPos < 0 && 
+				clickXPos <= (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 4) && 
+				clickXPos > Config.BUTTON_WIDTH * 4) {
 			Config.ISMOVING = true;
 			view.setLastXPos(MouseInfo.getPointerInfo().getLocation().x);
 			view.setLastYPos(MouseInfo.getPointerInfo().getLocation().y);
-			System.out.println("MOVE");
+			if(Config.DEBUG) {
+				System.out.println("MOVE");
+			}
 		}
 		
 	}
@@ -70,7 +75,7 @@ public class Control implements MouseListener, MouseMotionListener{
 		
 		if(!Config.GAME_END && !Config.ISMOVING) {
 			
-			boolean cellIsMine = false;
+			//boolean cellIsMine = false;
 			
 			
 			
@@ -79,11 +84,11 @@ public class Control implements MouseListener, MouseMotionListener{
 			
 			
 			
-			if(rightClick && c != null && !c.isOpen()) {//SWAP FLAG
+			if(rightClick && c != null && !c.isOpen() && !Config.GAME_MENU) {//SWAP FLAG
 				c.swapFlagState();
 				Config.FIRST_CLICK = true;
 			}
-			else if((c != null) & leftClick && c.isFlag() == false) {//Open Cell
+			else if((c != null) & leftClick && c.isFlag() == false && !Config.GAME_MENU) {//Open Cell
 				Config.FIRST_CLICK = true;
 				if(c.openCell() && !c.isMine()) {
 					if(Config.FIRST_RECURSIVE) {
@@ -108,13 +113,17 @@ public class Control implements MouseListener, MouseMotionListener{
 				game.win();
 			}
 			
-			if(leftClick && clickYPos < 0 && !Config.ISMOVING) {//TOOLBAR
+			if(Config.GAME_MENU & (clickYPos > (Config.GAME_MENU_HEIGHT + Config.Y_OFFSET) | clickXPos > Config.GAME_MENU_WIDTH) && leftClick) {//Remove menu
+				Config.GAME_MENU = false;
+			}
+			
+			if(clickYPos < 0 && !Config.ISMOVING) {//TOOLBAR
 				this.checkToolBar(clickXPos, true);
 			}
 			
 			
 			
-			if(c != null) {//Debug
+			if(c != null && Config.DEBUG) {//Debug
 				System.out.println(c);
 				
 				System.out.println(game.getNeighborMineNum(c.getPosX(), c.getPosY()));
@@ -131,6 +140,9 @@ public class Control implements MouseListener, MouseMotionListener{
 	}
 
 	private void checkToolBar(int clickXPos, boolean clicked) {
+		if(clicked) {
+			int a = 0;
+		}
 		if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - Config.BUTTON_WIDTH) {//Exit button
 			if(clicked) {
 				System.exit(0);
@@ -165,7 +177,9 @@ public class Control implements MouseListener, MouseMotionListener{
 					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					Config.IS_MAX_FRAME = true;
 				}
-				//System.out.println("MAX");
+				if(Config.DEBUG) {
+					System.out.println("MAX");
+				}
 			}
 			else {
 				view.setMaxButtonColor(Config.MAX_BUTTON_COLOR.darker());
@@ -178,7 +192,9 @@ public class Control implements MouseListener, MouseMotionListener{
 		else if(clickXPos > (Config.CELL_DISTANCE * Config.GAME_SIZE) - (Config.BUTTON_WIDTH * 4)) {//RESET GAME
 			if(clicked) {
 				game.reset();
-				System.out.println("RESET");
+				if(Config.DEBUG) {
+					System.out.println("RESET");
+				}
 			}
 			else {
 				view.setResetButtonColor(Config.RESET_BUTTON_COLOR.darker());
@@ -187,6 +203,20 @@ public class Control implements MouseListener, MouseMotionListener{
 				view.setMinButtonColor(Config.MIN_BUTTON_COLOR);
 				view.setMaxButtonColor(Config.MAX_BUTTON_COLOR);
 			}
+		}
+		else if(clickXPos < Config.BUTTON_WIDTH && clicked) {
+			if(Config.DEBUG) {
+				System.out.println("Game Menu");
+			}
+			Config.GAME_MENU = !Config.GAME_MENU;
+			//TODO add game select button
+		}
+		else if(clickXPos < (Config.BUTTON_WIDTH * 3) && clicked) {
+			if(Config.DEBUG) {
+				System.out.println("Highscores");
+			}
+			//Config.GAME_MENU = !Config.GAME_MENU;
+			//TODO add game select button
 		}
 		else {
 			this.resetToolbarColors();//Left of toolbar buttons
@@ -232,9 +262,9 @@ public class Control implements MouseListener, MouseMotionListener{
 		else {
 			this.resetToolbarColors();
 		}
-		System.out.println("XPos: " + hoverXPos + "  |  YPos: " + hoverYPos);
-		
-		
+		if(Config.DEBUG_MORE) {
+			System.out.println("XPos: " + hoverXPos + "  |  YPos: " + hoverYPos);
+		}	
 	}
 
 }

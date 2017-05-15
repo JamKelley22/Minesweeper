@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -69,7 +70,9 @@ public class View extends JFrame implements Updatable{
 			int holdXPos = MouseInfo.getPointerInfo().getLocation().x;
 			int holdYPos = MouseInfo.getPointerInfo().getLocation().y;
 			
-			System.out.println("(" + holdXPos + "," + holdYPos + ")");
+			if(Config.DEBUG_MORE) {
+				System.out.println("(" + holdXPos + "," + holdYPos + ")");
+			}
 			
 			int xDiff = holdXPos - this.lastXPos;
 			int yDiff = holdYPos - this.lastYPos;
@@ -96,6 +99,35 @@ public class View extends JFrame implements Updatable{
 		this.drawButton(2, "+", maxButtonColor, g2D);//Maximize Button
 		this.drawButton(3, "r", resetButtonColor, g2D);//RESET BUTTON
 		
+		///////////////////////////////////
+		
+		int lineOffset = 3;
+		g2D.setStroke(new BasicStroke(1));
+		g2D.setFont(new Font("Dialog", Font.PLAIN, 15));
+		
+		g2D.setColor(Color.GRAY);
+		//g2D.fill3DRect(0, 0, Config.BUTTON_WIDTH, Config.Y_OFFSET, false);
+		
+		g2D.drawLine(Config.BUTTON_WIDTH, 0 + lineOffset, Config.BUTTON_WIDTH, Config.Y_OFFSET - lineOffset);
+		g2D.setColor(Color.WHITE);
+		g2D.drawString("game", 1, 15);
+		
+		//--------------------------
+		
+		g2D.setColor(Color.GRAY);
+		
+		g2D.drawLine(Config.BUTTON_WIDTH * 3, 0 + lineOffset, Config.BUTTON_WIDTH * 3, Config.Y_OFFSET - lineOffset);
+		g2D.setColor(Color.WHITE);
+		g2D.drawString("highscores", 45, 15);
+		
+		////////////////////////////////////////////////
+		if(Config.GAME_MENU) {
+			g2D.setColor(Color.GRAY);
+			g2D.fill3DRect(0, Config.Y_OFFSET, 80, 200, false);
+			
+			g2D.setColor(Color.LIGHT_GRAY);
+			g2D.fillRect(0, Config.Y_OFFSET, Config.GAME_MENU_WIDTH, Config.GAME_MENU_HEIGHT / 10);
+		}
 		
 		if(Config.GAME_END) {//End of game
 			g2D.setColor(Color.BLACK);

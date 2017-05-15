@@ -9,6 +9,10 @@ public class Config {
 	
 	public static final Random RANDOM = new Random();
 	
+	public static final boolean DEBUG = true;
+	
+	public static final boolean DEBUG_MORE = false;
+	
 	
 	public static final int CELL_DISTANCE = 20;//In pixels
 	
@@ -18,6 +22,10 @@ public class Config {
 	
 	public static final float FPS = 60.0f;
 	
+	
+	public static final int GAME_MENU_HEIGHT = 200;
+	
+	public static final int GAME_MENU_WIDTH = 80;
 	
 	public static final int Y_OFFSET = 20;
 	
@@ -57,7 +65,7 @@ public class Config {
 
 	public static final int RECURSIVE_PROB_DIFF = 15;//Ammount the pobibility of opening more spaces goes down each cell opened
 
-	public static final int FIRST_RECURSIVE_PROB_DIFF = 25;//More spaces will open with first click
+	public static final int FIRST_RECURSIVE_PROB_DIFF = 20;//More spaces will open with first click
 
 
 	public static boolean FIRST_CLICK = false;
@@ -85,6 +93,9 @@ public class Config {
 	public static Color MAX_BUTTON_COLOR = Color.GREEN;
 	
 	public static Color RESET_BUTTON_COLOR = Color.GRAY.brighter();
+
+
+	public static boolean GAME_MENU = false;
 	
 	
 	public static Point subtract(Point p1, Point p2) {
